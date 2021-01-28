@@ -19,19 +19,7 @@ static void idle_cb() {
     glutPostRedisplay();
 }
 
-static void render() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    double cameraPos[] = {cos(angle) * 45, 15, sin(angle) * 45};
-    double focusPos[] = {0, 0, 0};
-    double up[] = {0,1,0};
-
-    gluLookAt( cameraPos[0], cameraPos[1], cameraPos[2],
-               focusPos[0], focusPos[1], focusPos[2],
-               up[0], up[1], up[2]);
-
+static void render_shape() {
     glBegin(GL_QUADS);
 
 
@@ -70,6 +58,23 @@ static void render() {
     glVertex3f(-5, -5, -5);
 
     glEnd();
+}
+
+static void render() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    double cameraPos[] = {cos(angle) * 45, 15, sin(angle) * 45};
+    double focusPos[] = {0, 0, 0};
+    double up[] = {0,1,0};
+
+    gluLookAt( cameraPos[0], cameraPos[1], cameraPos[2],
+               focusPos[0], focusPos[1], focusPos[2],
+               up[0], up[1], up[2]);
+
+    render_shape();
+
     glutSwapBuffers();
 }
 
