@@ -63,7 +63,7 @@ void Display()
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    double cameraPosition[] = {cos(angle) * 2, cameraHeight * cos(angle / 3), 1.14};
+    double cameraPosition[] = {cos(angle) * 2, cameraHeight * cos(angle / 3), sin(angle) * 2};
     double focusPosition[] = {0, 0, 0};
     double up[] = {0,1,0};
     gluLookAt( cameraPosition[0], cameraPosition[1], cameraPosition[2],

@@ -9,7 +9,7 @@ static void render() {
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    double cameraPos[] = {0, 0, 10};
+    double cameraPos[] = {0, 0, 20};
     double focusPos[] = {0, 0, 0};
     double up[] = {0,1,0};
 
@@ -17,14 +17,44 @@ static void render() {
                focusPos[0], focusPos[1], focusPos[2],
                up[0], up[1], up[2]);
 
-    glBegin(GL_TRIANGLES);
+    glBegin(GL_QUADS);
+
+
+    // Front
+    glColor3f(1, 0, 1);
+
+    glVertex3f(-5, -5, 0);
+    glVertex3f(5, -5, 0);
+    glVertex3f(5, 5, 0);
+    glVertex3f(-5, 5, 0);
+
+
+    // Front
+    glColor3f(1, 0, 1);
+
+    glVertex3f(-5, -5, 0);
+    glVertex3f(5, -5, 0);
+    glVertex3f(5, 5, 0);
+    glVertex3f(-5, 5, 0);
 
     glEnd();
     glutSwapBuffers();
 }
 
-static void reshape(int width, int height) {
+static void reshape(int newWidth, int newHeight) {
+    glViewport(0, 0, newWidth, newHeight);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
 
+    // windowWidth = newWidth;
+    // windowHeight = newHeight;
+
+    double minZPlane = 0.01;
+    double maxZPlane = 100.0;
+    gluPerspective(45.0f, 1.0 * newWidth / newHeight, minZPlane, maxZPlane);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 void cube(int argc, char* argv[]) {
