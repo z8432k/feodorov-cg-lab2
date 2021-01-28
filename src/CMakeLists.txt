@@ -5,5 +5,16 @@ find_package(GLUT REQUIRED)
 
 include_directories(include)
 
-add_executable(cgcw cgcw.cc)
-target_link_libraries(cgcw ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+add_library(orig OBJECT orig.cc)
+target_link_libraries(orig PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+
+add_library(cube OBJECT cube.cc)
+target_link_libraries(cube PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+
+
+
+add_executable(orig-cw orig-cw.cc)
+target_link_libraries(orig-cw orig)
+
+add_executable(cube-cw cube-cw.cc)
+target_link_libraries(cube-cw cube)

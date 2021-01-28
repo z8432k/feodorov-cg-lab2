@@ -1,5 +1,4 @@
-#include <iostream>
-#include <cstddef>
+#include <orig.h>
 
 #include <GL/glut.h>
 #define _USE_MATH_DEFINES
@@ -7,12 +6,10 @@
 #include <cstdlib>
 #include <cstdio>
 
-using namespace std;
-
-int windowID;
-int windowWidth, windowHeight;
-double angle = 0.0;
-double cameraHeight = 1.0;
+static int windowID;
+static int windowWidth, windowHeight;
+static double angle = 0.0;
+static double cameraHeight = 1.0;
 
 void init()
 {
@@ -25,6 +22,7 @@ void doIdle()
 {
     angle += 0.01;
     cameraHeight = 1.0;
+    // Перерисовка
     glutPostRedisplay();
 }
 
@@ -65,16 +63,16 @@ void Display()
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    double cameraPosition[3] = {cos(angle) * 2, cameraHeight * cos(angle / 3), sin(angle) * 2};
-    double focusPosition[3] = {0, 0, 0};
-    double up[3] = {0,1,0};
+    double cameraPosition[] = {cos(angle) * 2, cameraHeight * cos(angle / 3), 1.14};
+    double focusPosition[] = {0, 0, 0};
+    double up[] = {0,1,0};
     gluLookAt( cameraPosition[0], cameraPosition[1], cameraPosition[2],
                focusPosition[0], focusPosition[1], focusPosition[2],
                up[0], up[1], up[2]);
 
-    int verticalParts = 12;
+    int verticalParts = 4;
     float verticalMultiplier = 2 * M_PI / verticalParts;
-    int horisontalParts = 48;
+    int horisontalParts = 6;
     float horisontalMultiplier = 2 * M_PI / horisontalParts;
 
     float radius = .5;
@@ -114,25 +112,25 @@ void Display()
             float sinb2 = sin(b2);
 
             glVertex3f(
-            cosa1 * cosb1 * partRadius - cosa1 * radius,
+                    cosa1 * cosb1 * partRadius - cosa1 * radius,
                     sina1 * cosb1 * partRadius - sina1 * radius,
                     sinb1 * partRadius
             );
 
             glVertex3f(
-            cosa2 * cosb1 * partRadius - cosa2 * radius,
+                    cosa2 * cosb1 * partRadius - cosa2 * radius,
                     sina2 * cosb1 * partRadius - sina2 * radius,
                     sinb1 * partRadius
             );
 
             glVertex3f(
-            cosa2 * cosb2 * partRadius - cosa2 * radius,
+                    cosa2 * cosb2 * partRadius - cosa2 * radius,
                     sina2 * cosb2 * partRadius - sina2 * radius,
                     sinb2 * partRadius
             );
 
             glVertex3f(
-            cosa1 * cosb2 * partRadius - cosa1 * radius,
+                    cosa1 * cosb2 * partRadius - cosa1 * radius,
                     sina1 * cosb2 * partRadius - sina1 * radius,
                     sinb2 * partRadius
             );
@@ -145,11 +143,9 @@ void Display()
 
 }
 
-int main(int argc, char* argv[] ) {
-    cout << "Computer graphic. Control work." << endl << endl;
-
-    glutInit(&argc,argv);
-    glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+void orig(int argc, char* argv[]) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode (GLUT_DOUBLE | GLUT_DEPTH);
     windowWidth = 400;
     windowHeight = 400;
     glutInitWindowSize (windowWidth,windowHeight);
@@ -160,9 +156,7 @@ int main(int argc, char* argv[] ) {
     glutReshapeFunc(reshape);
     glutIdleFunc(doIdle);
     glutKeyboardFunc(KeyboardFunc);
+
     init();
     glutMainLoop();
-
-    exit(EXIT_SUCCESS);
 }
-
