@@ -1,15 +1,30 @@
 #include <cube.h>
+#include <iostream>
 
 #include <GL/glut.h>
 #define _USE_MATH_DEFINES
 #include <cmath>
+
+using namespace std;
+
+static double angle = .0;
+
+static void idle_cb() {
+    // BUG:  There is poossible double overflow
+    angle += 0.01;
+
+    // cameraHeight = 1.0;
+    // Перерисовка
+
+    glutPostRedisplay();
+}
 
 static void render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    double cameraPos[] = {0, 0, 20};
+    double cameraPos[] = {cos(angle) * 45, 15, sin(angle) * 45};
     double focusPos[] = {0, 0, 0};
     double up[] = {0,1,0};
 
@@ -23,19 +38,36 @@ static void render() {
     // Front
     glColor3f(1, 0, 1);
 
-    glVertex3f(-5, -5, 0);
-    glVertex3f(5, -5, 0);
-    glVertex3f(5, 5, 0);
-    glVertex3f(-5, 5, 0);
+    glVertex3f(-5, -5, 5);
+    glVertex3f(5, -5, 5);
+    glVertex3f(5, 5, 5);
+    glVertex3f(-5, 5, 5);
 
 
-    // Front
-    glColor3f(1, 0, 1);
+    // Back
+    glColor3f(0, 0, 1);
 
-    glVertex3f(-5, -5, 0);
-    glVertex3f(5, -5, 0);
-    glVertex3f(5, 5, 0);
-    glVertex3f(-5, 5, 0);
+    glVertex3f(-5, -5, -5);
+    glVertex3f(5, -5, -5);
+    glVertex3f(5, 5, -5);
+    glVertex3f(-5, 5, -5);
+
+
+    // Left
+    glColor3f(1, 0, 0);
+
+    glVertex3f(-5, -5, 5);
+    glVertex3f(-5, 5, 5);
+    glVertex3f(-5, 5, -5);
+    glVertex3f(-5, -5, -5);
+
+    // Bottom
+    glColor3f(1, 1, 0);
+
+    glVertex3f(-5, -5, 5);
+    glVertex3f(5, -5, 5);
+    glVertex3f(5, -5, -5);
+    glVertex3f(-5, -5, -5);
 
     glEnd();
     glutSwapBuffers();
@@ -68,6 +100,7 @@ void cube(int argc, char* argv[]) {
 
     glutDisplayFunc(render);
     glutReshapeFunc(reshape);
+    glutIdleFunc(idle_cb);
 
     glClearColor(0, 0, 0, 0);
     glEnable(GL_DEPTH_TEST);
