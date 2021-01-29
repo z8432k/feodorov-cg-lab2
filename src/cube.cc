@@ -19,6 +19,66 @@ static void idle_cb() {
     glutPostRedisplay();
 }
 
+static void render_light() {
+    // 0
+    GLfloat ambient_light0[] = {0.3f, 0.3f, 0.3f, 1.0f};
+    GLfloat diffuse_light0[] = {0.7f, 0.7f, 0.7f, 1.0f};
+    GLfloat specular_light0[] = {1.0f, 0.0f, 0.0f, 1.0f};
+    glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light0);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light0);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, specular_light0);
+
+    GLfloat light0_pos[] = {50.0f, 0.0f, 15.0f, 1.0f};
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
+
+    glEnable(GL_LIGHT0);
+
+    // 1
+    GLfloat ambient_light1[] = {0.3f, 0.3f, 0.3f, 1.0f};
+    GLfloat diffuse_light1[] = {0.7f, 0.7f, 0.7f, 1.0f};
+    GLfloat specular_light1[] = {0.0f, 1.7f, 0.0f, 1.0f};
+    glLightfv(GL_LIGHT1, GL_AMBIENT, ambient_light1);
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, diffuse_light1);
+    glLightfv(GL_LIGHT1, GL_SPECULAR, specular_light1);
+
+    GLfloat light1_pos[] = {15.0f, 50.0f, 15.0f, 1.0f};
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_pos);
+
+    glEnable(GL_LIGHT1);
+
+    // 2
+    GLfloat ambient_light2[] = {0.3f, 0.3f, 0.3f, 1.0f};
+    GLfloat diffuse_light2[] = {0.7f, 0.7f, 0.7f, 1.0f};
+    GLfloat specular_light2[] = {0.0f, 0.0f, 1.0f, 1.0f};
+    glLightfv(GL_LIGHT2, GL_AMBIENT, ambient_light2);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, diffuse_light2);
+    glLightfv(GL_LIGHT2, GL_SPECULAR, specular_light2);
+
+    GLfloat light2_pos[] = {0.0f, 0.0f, 50.0f, 1.0f};
+    glLightfv(GL_LIGHT2, GL_POSITION, light2_pos);
+
+    glEnable(GL_LIGHT2);
+}
+
+static void gl_init() {
+    glClearColor(0, 0, 0, 0);
+    glEnable(GL_DEPTH_TEST);
+    glShadeModel(GL_SMOOTH);
+
+
+
+    glEnable(GL_LIGHTING);
+    GLfloat ambient[] = {0.5f, 0.5f, 0.5f, 1.0f};
+    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, ambient);
+
+    glEnable(GL_COLOR_MATERIAL);
+    glColorMaterial(GL_FRONT, GL_AMBIENT);
+
+    glEnable(GL_NORMALIZE);
+
+    render_light();
+}
+
 static void render_shape() {
     glBegin(GL_QUADS);
 
@@ -107,9 +167,7 @@ void cube(int argc, char* argv[]) {
     glutReshapeFunc(reshape);
     glutIdleFunc(idle_cb);
 
-    glClearColor(0, 0, 0, 0);
-    glEnable(GL_DEPTH_TEST);
-    glShadeModel(GL_SMOOTH);
+    gl_init();
 
     glutMainLoop();
 }
