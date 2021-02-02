@@ -219,6 +219,8 @@ static void render_shape() {
     glVertex3f(0, 0, 6);
     glEnd();
 
+    glTranslatef(-3, 0, 0);
+
     glBegin(GL_QUADS);
 
 
