@@ -18,3 +18,10 @@ target_link_libraries(orig-cw orig)
 
 add_executable(cube-cw cube-cw.cc)
 target_link_libraries(cube-cw cube)
+
+add_executable(mouse mouse.cc)
+target_link_libraries(mouse PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+
+add_executable(light light.cc)
+target_link_libraries(light PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+

@@ -8,10 +8,10 @@
 
 using namespace std;
 
-int windowID;
-int windowWidth, windowHeight;
-double angle = 0.0;
-double cameraHeight = 1.0;
+static int windowID;
+static int windowWidth, windowHeight;
+static double angle = 0.0;
+static double cameraHeight = 1.0;
 
 void init()
 {
