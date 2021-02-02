@@ -174,7 +174,7 @@ static void render_light() {
 
     // направление на центр плоскости
 
-    GLfloat light3_diffuse[] = {0.4, 0.7, 0.2};
+    GLfloat light3_diffuse[] = {0.4, 0.7, 0.9};
 
     GLfloat light3_position[] = {0, 0, 6, 1.0};
 
@@ -231,7 +231,7 @@ static void render_shape() {
     //glVertex3f(-5, 5, 5);
     // render_plane(-5, 5, 5, -5, 5, 5, 0.05);
 
-    float k = 0.005;
+    float k = 0.05;
 
     for (float x = -5.0; x < 5.0; x += k)
 
@@ -281,18 +281,90 @@ static void render_shape() {
     // Left
     glColor3f(0, 0, 1);
 
-    glVertex3f(-5, -5, 5);
-    glVertex3f(-5, 5, 5);
-    glVertex3f(-5, 5, -5);
-    glVertex3f(-5, -5, -5);
+    for (float z = -5.0; z < 5.0; z += k)
+    {
+
+        for (float y = -5.0; y < 5.0; y += k)
+
+        {
+
+            glVertex3f(-5.0, y, z);
+
+            glVertex3f(-5.0, y + k, z);
+
+            glVertex3f(-5.0, y + k, z + k);
+
+            glVertex3f(-5.0, y, z + k);
+
+        }
+
+    }
+
+    // Right
+    glColor3f(0, 1, 1);
+
+    for (float z = -5.0; z < 5.0; z += k)
+    {
+
+        for (float y = -5.0; y < 5.0; y += k)
+
+        {
+
+            glVertex3f(5.0, y, z);
+
+            glVertex3f(5.0, y + k, z);
+
+            glVertex3f(5.0, y + k, z + k);
+
+            glVertex3f(5.0, y, z + k);
+
+        }
+
+    }
 
     // Bottom
     glColor3f(1, 0, 1);
 
-    glVertex3f(-5, -5, 5);
-    glVertex3f(5, -5, 5);
-    glVertex3f(5, -5, -5);
-    glVertex3f(-5, -5, -5);
+    for (float z = -5.0; z < 5.0; z += k)
+    {
+
+        for (float x = -5.0; x < 5.0; x += k)
+
+        {
+
+            glVertex3f(x, -5.0, z);
+
+            glVertex3f(x + k, -5.0, z);
+
+            glVertex3f(x + k, -5.0, z + k);
+
+            glVertex3f(x, -5.0, z + k);
+
+        }
+
+    }
+
+    // Top
+    glColor3f(1, 1, 0);
+
+    for (float z = -5.0; z < 5.0; z += k)
+    {
+
+        for (float x = -5.0; x < 5.0; x += k)
+
+        {
+
+            glVertex3f(x, 5.0, z);
+
+            glVertex3f(x + k, 5.0, z);
+
+            glVertex3f(x + k, 5.0, z + k);
+
+            glVertex3f(x, 5.0, z + k);
+
+        }
+
+    }
 
     glEnd();
 }
