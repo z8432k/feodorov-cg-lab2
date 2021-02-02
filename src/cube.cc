@@ -219,10 +219,26 @@ static void render_shape() {
     glVertex3f(0, 0, 6);
     glEnd();
 
+
+    glBegin(GL_LINES);
+
+    glColor3f (1.0, 1.0, 1.0);
+    glVertex3f(0.0, 0.0, 0.0);
+    glVertex3f(50.0, 0.0, 0.0);
+
+    glColor3f (1.0, 1.0, 1.0);
+    glVertex3f(0.0, 0.0, 0.0);
+    glVertex3f(0.0, 50.0, 0.0);
+
+    glColor3f (1.0, 1.0, 1.0);
+    glVertex3f(0.0, 0.0, 0.0);
+    glVertex3f(0.0, 0.0, 50.0);
+    glEnd();
+
+
     glTranslatef(-3, 0, 0);
 
     glBegin(GL_QUADS);
-
 
     // Front
     glColor3f(1, 0, 0);
