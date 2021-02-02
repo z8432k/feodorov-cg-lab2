@@ -76,7 +76,7 @@ static void mouse_move(int x, int y) {
         //  dx            5                 -5
 
         alpha = (xOrigin - x) * 0.01;
-        beta = (yOrigin - y) * 0.01;
+        beta = (yOrigin + y) * 0.01;
 
         cout << alpha * 180.f / 3.14 << "-" << beta * 180.f / 3.14 << endl;
     }
@@ -108,10 +108,10 @@ void render_point(GLfloat x, GLfloat y, GLfloat z)
 static void render_light() {
     // 0
 /*
-    GLfloat ambient_light0[] = {0.05f, 0.0f, 0.0f, 1.0f};
-    GLfloat diffuse_light0[] = {0.10f, 0.0f, 0.0f, 1.0f};
-    GLfloat specular_light0[] = {0.99f, 0.0f, 0.0f, 1.0f};
-    GLfloat light0_pos[] = {20.0f, 3.0f, 0.f, 1.f};
+    GLfloat ambient_light0[] = {0.0f, 0.0f, 0.0f, 1.0f};
+    GLfloat diffuse_light0[] = {0.7f, 0.7f, 0.7f, 1.0f};
+    GLfloat specular_light0[] = {0.0f, 0.7f, 0.7f, 1.0f};
+    GLfloat light0_pos[] = {0.0f, 20.0f, 20.f, 1.f};
     glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0, GL_POSITION, light0_pos);
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light0);
@@ -161,34 +161,60 @@ static void render_light() {
 */
     //glLightf(GL_LIGHT5, GL_QUADRATIC_ATTENUATION, 0.01);
 
+/*
+    // точечный источник света
+    // убывание интенсивности с расстоянием
+    // задано функцией f(d) = 1.0 / (0.4 * d * d + 0.2 * d)
+    GLfloat light2_diffuse[] = {0.4, 0.7, 0.2};
 
+    GLfloat light2_position[] = {0.0, 0.0, 0.0, 1.0};
 
+    glEnable(GL_LIGHT2);
+
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, light2_diffuse);
+
+    glLightfv(GL_LIGHT2, GL_POSITION, light2_position);
+
+    glLightf(GL_LIGHT2, GL_CONSTANT_ATTENUATION, 0.0);
+
+    glLightf(GL_LIGHT2, GL_LINEAR_ATTENUATION, 0.2);
+
+    glLightf(GL_LIGHT2, GL_QUADRATIC_ATTENUATION, 0.4);
+*/
 
     // прожектор
-
     // убывание интенсивности с расстоянием
-
     // отключено (по умолчанию)
-
     // половина угла при вершине 30 градусов
-
     // направление на центр плоскости
-
-    GLfloat light3_diffuse[] = {0.4, 0.7, 0.9};
-
+    GLfloat light3_diffuse[] = {0.4, 0.8, 0.4};
     GLfloat light3_position[] = {0, 0, 6, 1.0};
-
     GLfloat light3_spot_direction[] = {0.0, 0.0, -1.0};
-
     glEnable(GL_LIGHT3);
-
     glLightfv(GL_LIGHT3, GL_DIFFUSE, light3_diffuse);
-
     glLightfv(GL_LIGHT3, GL_POSITION, light3_position);
-
     glLightf(GL_LIGHT3, GL_SPOT_CUTOFF, 8);
-
     glLightfv(GL_LIGHT3, GL_SPOT_DIRECTION, light3_spot_direction);
+
+
+    GLfloat light4_diffuse[] = {0.4, 0.4, 0.8};
+    GLfloat light4_position[] = {0, 5, -10, 1.0};
+    GLfloat light4_spot_direction[] = {0.0, 0.0, -1.0};
+    glEnable(GL_LIGHT4);
+    glLightfv(GL_LIGHT4, GL_DIFFUSE, light4_diffuse);
+    glLightfv(GL_LIGHT4, GL_POSITION, light4_position);
+    glLightf(GL_LIGHT4, GL_SPOT_CUTOFF, 8);
+    glLightfv(GL_LIGHT4, GL_SPOT_DIRECTION, light4_spot_direction);
+
+
+    GLfloat light5_diffuse[] = {0.8, 0.4, 0.4};
+    GLfloat light5_position[] = {-10, 5, -10, 1.0};
+    GLfloat light5_spot_direction[] = {0.0, 0.0, -1.0};
+    glEnable(GL_LIGHT5);
+    glLightfv(GL_LIGHT5, GL_DIFFUSE, light5_diffuse);
+    glLightfv(GL_LIGHT5, GL_POSITION, light5_position);
+    glLightf(GL_LIGHT5, GL_SPOT_CUTOFF, 9);
+    glLightfv(GL_LIGHT5, GL_SPOT_DIRECTION, light5_spot_direction);
 }
 
 static void gl_init() {
@@ -212,14 +238,167 @@ static void gl_init() {
     render_light();
 }
 
+static void render_cube(const float start_x, const float start_y, const float start_z, const float size) {
+    glBegin(GL_QUADS);
+
+    // Front
+    //glColor3f(1, 0, 0);
+
+    float k = 0.05;
+
+    float z = start_z + size;
+    for (float x = start_x; x < start_x + size; x += k)
+    {
+
+        for (float y = start_y; y < start_y + size; y += k)
+
+        {
+
+            glVertex3f(x, y, z);
+
+            glVertex3f(x, y + k, z);
+
+            glVertex3f(x + k, y + k, z);
+
+            glVertex3f(x + k, y, z);
+
+        }
+
+    }
+
+
+    // Back
+    //glColor3f(0, 1, 0);
+
+    z = start_z;
+    for (float x = start_x; x < start_x + size; x += k)
+
+    {
+        for (float y = start_y; y < start_y + size; y += k)
+
+        {
+
+            glVertex3f(x, y, z);
+
+            glVertex3f(x, y + k, z);
+
+            glVertex3f(x + k, y + k, z);
+
+            glVertex3f(x + k, y, z);
+
+        }
+
+    }
+
+
+    // Left
+    //glColor3f(0, 0, 1);
+
+    float x = start_x;
+    for (float z = start_z; z < start_z + size; z += k)
+    {
+
+        for (float y = start_y; y < start_y + size; y += k)
+
+        {
+
+            glVertex3f(x, y, z);
+
+            glVertex3f(x, y + k, z);
+
+            glVertex3f(x, y + k, z + k);
+
+            glVertex3f(x, y, z + k);
+
+        }
+
+    }
+
+    // Right
+    //glColor3f(0, 1, 1);
+
+    x = start_x + size;
+    for (float z = start_z; z < start_z + size; z += k)
+    {
+
+        for (float y = start_y; y < start_y + size; y += k)
+
+        {
+
+            glVertex3f(x, y, z);
+
+            glVertex3f(x, y + k, z);
+
+            glVertex3f(x, y + k, z + k);
+
+            glVertex3f(x, y, z + k);
+
+        }
+
+    }
+
+    GLfloat red[] = {1.f, 0.0f, 0.f, 1.0f};
+    GLfloat black[] = {0.f, 0.0f, 0.f, 1.0f};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, black);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, red);
+
+    // Bottom
+    //glColor3f(1, 0, 1);
+
+    float y = start_y;
+    for (float z = start_z; z < start_z + size; z += k)
+    {
+
+        for (float x = start_x; x < start_x + size; x += k)
+
+        {
+
+            glVertex3f(x, y, z);
+
+            glVertex3f(x + k, y, z);
+
+            glVertex3f(x + k, y, z + k);
+
+            glVertex3f(x, y, z + k);
+
+        }
+
+    }
+
+    // Top
+    //glColor3f(1, 1, 1);
+
+    y = start_y + size;
+    for (float z = start_z; z < start_z + size; z += k)
+    {
+
+        for (float x = start_x; x < start_x + size; x += k)
+
+        {
+
+            glVertex3f(x, y, z);
+
+            glVertex3f(x + k, y, z);
+
+            glVertex3f(x + k, y, z + k);
+
+            glVertex3f(x, y, z + k);
+
+        }
+
+    }
+
+    glEnd();
+}
+
 static void render_shape() {
     glBegin(GL_POINTS);
     glColor3f(1.0f, 1.0f, 1.0f);
     glPointSize(15.0);
-    glVertex3f(0, 0, 6);
+    glVertex3f(3, 0, 0);
     glEnd();
 
-
+    // Оси
     glBegin(GL_LINES);
 
     glColor3f (1.0, 1.0, 1.0);
@@ -234,157 +413,18 @@ static void render_shape() {
     glVertex3f(0.0, 0.0, 0.0);
     glVertex3f(0.0, 0.0, 50.0);
     glEnd();
+    // /Оси
 
+    //glNormal3f(0.0, 10.0, 0.0);
 
-    glTranslatef(-3, 0, 0);
+    glTranslatef(-10, 0, 0);
+    render_cube(-5., -5., -5, 10);
 
-    glBegin(GL_QUADS);
+    glTranslatef(20, 0, 0);
+    render_cube(-5., -5., -5, 10);
 
-    // Front
-    glColor3f(1, 0, 0);
-
-    //glVertex3f(-5, -5, 5);
-    //glVertex3f(5, -5, 5);
-    //glVertex3f(5, 5, 5);
-    //glVertex3f(-5, 5, 5);
-    // render_plane(-5, 5, 5, -5, 5, 5, 0.05);
-
-    float k = 0.05;
-
-    for (float x = -5.0; x < 5.0; x += k)
-
-    {
-
-        for (float y = -5.0; y < 5.0; y += k)
-
-        {
-
-            glVertex3f(x, y, 5.0);
-
-            glVertex3f(x, y + k, 5.0);
-
-            glVertex3f(x + k, y + k, 5.0);
-
-            glVertex3f(x + k, y, 5.0);
-
-        }
-
-    }
-
-
-    // Back
-    glColor3f(0, 1, 0);
-
-    for (float x = -5.0; x < 5.0; x += k)
-
-    {
-
-        for (float y = -5.0; y < 5.0; y += k)
-
-        {
-
-            glVertex3f(x, y, -5.0);
-
-            glVertex3f(x, y + k, -5.0);
-
-            glVertex3f(x + k, y + k, -5.0);
-
-            glVertex3f(x + k, y, -5.0);
-
-        }
-
-    }
-
-
-    // Left
-    glColor3f(0, 0, 1);
-
-    for (float z = -5.0; z < 5.0; z += k)
-    {
-
-        for (float y = -5.0; y < 5.0; y += k)
-
-        {
-
-            glVertex3f(-5.0, y, z);
-
-            glVertex3f(-5.0, y + k, z);
-
-            glVertex3f(-5.0, y + k, z + k);
-
-            glVertex3f(-5.0, y, z + k);
-
-        }
-
-    }
-
-    // Right
-    glColor3f(0, 1, 1);
-
-    for (float z = -5.0; z < 5.0; z += k)
-    {
-
-        for (float y = -5.0; y < 5.0; y += k)
-
-        {
-
-            glVertex3f(5.0, y, z);
-
-            glVertex3f(5.0, y + k, z);
-
-            glVertex3f(5.0, y + k, z + k);
-
-            glVertex3f(5.0, y, z + k);
-
-        }
-
-    }
-
-    // Bottom
-    glColor3f(1, 0, 1);
-
-    for (float z = -5.0; z < 5.0; z += k)
-    {
-
-        for (float x = -5.0; x < 5.0; x += k)
-
-        {
-
-            glVertex3f(x, -5.0, z);
-
-            glVertex3f(x + k, -5.0, z);
-
-            glVertex3f(x + k, -5.0, z + k);
-
-            glVertex3f(x, -5.0, z + k);
-
-        }
-
-    }
-
-    // Top
-    glColor3f(1, 1, 0);
-
-    for (float z = -5.0; z < 5.0; z += k)
-    {
-
-        for (float x = -5.0; x < 5.0; x += k)
-
-        {
-
-            glVertex3f(x, 5.0, z);
-
-            glVertex3f(x + k, 5.0, z);
-
-            glVertex3f(x + k, 5.0, z + k);
-
-            glVertex3f(x, 5.0, z + k);
-
-        }
-
-    }
-
-    glEnd();
+    glTranslatef(-10, 0, -15);
+    render_cube(-5., -5., -5, 10);
 }
 
 static void render() {
@@ -410,7 +450,6 @@ static void render() {
     GLfloat material_diffuse[] = {1.0, 1.0, 1.0, 1.0};
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_diffuse);
-
 
     render_shape();
 

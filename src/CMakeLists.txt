@@ -25,4 +25,7 @@ target_link_libraries(mouse PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
 add_executable(light light.cc)
 target_link_libraries(light PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
 
+add_executable(flower flower.cc)
+target_link_libraries(flower PUBLIC ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+
 add_subdirectory(example1)
