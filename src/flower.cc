@@ -10,6 +10,7 @@ static GLfloat white[] = { 1.0, 1.0, 1.0, 1.0 };
 static GLfloat black[] = { 0.0, 0.0, 0.0, 1.0 };
 static GLfloat red[] = { 1.0, 0.0, 0.0, 1.0 };
 static GLfloat yellow[] = { 1.0, 1.0, 0.0, 1.0 };
+static GLfloat green[] = { 0.0, 1.0, 0.0, 1.0 };
 static float alpha = 0.0;
 static float beta = PI / 6.0;
 static float zoom = 10.0;
@@ -26,10 +27,7 @@ static void render_cube(const float start_x, const float start_y, const float st
     // Front
     //glColor3f(1, 0, 0);
 
-    glMaterialfv(GL_FRONT, GL_EMISSION, black);
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, red);
-    glMaterialfv(GL_BACK, GL_EMISSION, black);
-    glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, red);
+
 
     glNormal3f(0, 0, 1);
     float k = 0.05;
@@ -48,7 +46,7 @@ static void render_cube(const float start_x, const float start_y, const float st
 
     // Back
     //glColor3f(0, 0, -1);
-    glNormal3f(0, 0, 1);
+    glNormal3f(0, 0, -1);
     z = start_z;
     for (float x = start_x; x < start_x + size; x += k)
     {
@@ -65,10 +63,6 @@ static void render_cube(const float start_x, const float start_y, const float st
     // Left
     //glColor3f(0, 0, 1);
 
-    glMaterialfv(GL_FRONT, GL_EMISSION, black);
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, yellow);
-    glMaterialfv(GL_BACK, GL_EMISSION, black);
-    glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, yellow);
 
     glNormal3f(-1, 0, 0);
     float x = start_x;
@@ -86,10 +80,6 @@ static void render_cube(const float start_x, const float start_y, const float st
     // Right
     //glColor3f(0, 1, 1);
 
-    glMaterialfv(GL_FRONT, GL_EMISSION, black);
-    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
-    glMaterialfv(GL_BACK, GL_EMISSION, black);
-    glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, white);
 
     glNormal3f(1, 0, 0);
     x = start_x + size;
@@ -251,7 +241,7 @@ void display(void)
     cpos[2] = zoom * cos(beta) * cos(alpha);
     gluLookAt(cpos[0], cpos[1], cpos[2], 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     if (lightSource == true){
-        glLightfv(GL_LIGHT0, GL_POSITION, lpos);
+        glLightfv(GL_LIGHT1, GL_POSITION, lpos);
         glMaterialfv(GL_FRONT, GL_EMISSION, white);
         glPushMatrix();
         glTranslatef(lpos[0], lpos[1], lpos[2]);
@@ -299,6 +289,18 @@ void display(void)
 
     glEnd();
 
+    glMaterialfv(GL_FRONT, GL_EMISSION, black);
+    glMaterialfv(GL_BACK, GL_EMISSION, black);
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, green);
+    glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, green);
+
+    ///glTranslatef(-10, 0, 0);
+    render_cube(-1., -3., 0, 2);
+
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, yellow);
+    glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, yellow);
+
+    render_cube(-5., -5., 0, 2);
 
     glutSwapBuffers();
     glFlush();
@@ -455,7 +457,7 @@ int main(int argc, char** argv)
 
     glEnable(GL_LIGHTING);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
-    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
