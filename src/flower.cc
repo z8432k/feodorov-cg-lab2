@@ -20,6 +20,123 @@ float numberOfObj = 3;
 float numberOfTriangles = 1;
 static GLdouble cpos[3];
 
+static void render_cube(const float start_x, const float start_y, const float start_z, const float size) {
+    glBegin(GL_QUADS);
+
+    // Front
+    //glColor3f(1, 0, 0);
+
+    glMaterialfv(GL_FRONT, GL_EMISSION, black);
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, red);
+    glMaterialfv(GL_BACK, GL_EMISSION, black);
+    glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, red);
+
+    glNormal3f(0, 0, 1);
+    float k = 0.05;
+    float z = start_z + size;
+    for (float x = start_x; x < start_x + size; x += k)
+    {
+        for (float y = start_y; y < start_y + size; y += k)
+        {
+            glVertex3f(x, y, z);
+            glVertex3f(x + k, y, z);
+            glVertex3f(x + k, y + k, z);
+            glVertex3f(x, y + k, z);
+        }
+    }
+
+
+    // Back
+    //glColor3f(0, 0, -1);
+    glNormal3f(0, 0, 1);
+    z = start_z;
+    for (float x = start_x; x < start_x + size; x += k)
+    {
+        for (float y = start_y; y < start_y + size; y += k)
+        {
+            glVertex3f(x, y, z);
+            glVertex3f(x, y + k, z);
+            glVertex3f(x + k, y + k, z);
+            glVertex3f(x + k, y, z);
+        }
+    }
+
+
+    // Left
+    //glColor3f(0, 0, 1);
+
+    glMaterialfv(GL_FRONT, GL_EMISSION, black);
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, yellow);
+    glMaterialfv(GL_BACK, GL_EMISSION, black);
+    glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, yellow);
+
+    glNormal3f(-1, 0, 0);
+    float x = start_x;
+    for (float z = start_z; z < start_z + size; z += k)
+    {
+        for (float y = start_y; y < start_y + size; y += k)
+        {
+            glVertex3f(x, y, z);
+            glVertex3f(x, y, z + k);
+            glVertex3f(x, y + k, z + k);
+            glVertex3f(x, y + k, z);
+        }
+    }
+
+    // Right
+    //glColor3f(0, 1, 1);
+
+    glMaterialfv(GL_FRONT, GL_EMISSION, black);
+    glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
+    glMaterialfv(GL_BACK, GL_EMISSION, black);
+    glMaterialfv(GL_BACK, GL_AMBIENT_AND_DIFFUSE, white);
+
+    glNormal3f(1, 0, 0);
+    x = start_x + size;
+    for (float z = start_z; z < start_z + size; z += k)
+    {
+        for (float y = start_y; y < start_y + size; y += k)
+        {
+            glVertex3f(x, y, z);
+            glVertex3f(x, y + k, z);
+            glVertex3f(x, y + k, z + k);
+            glVertex3f(x, y, z + k);
+        }
+    }
+
+    // Bottom
+    //glColor3f(1, 0, 1);
+
+    glNormal3f(0, -1, 0);
+    float y = start_y;
+    for (float z = start_z; z < start_z + size; z += k)
+    {
+        for (float x = start_x; x < start_x + size; x += k)
+        {
+            glVertex3f(x, y, z);
+            glVertex3f(x + k, y, z);
+            glVertex3f(x + k, y, z + k);
+            glVertex3f(x, y, z + k);
+        }
+    }
+
+    // Top
+    //glColor3f(1, 1, 1);
+    glNormal3f(0, 1, 0);
+    y = start_y + size;
+    for (float z = start_z; z < start_z + size; z += k)
+    {
+        for (float x = start_x; x < start_x + size; x += k)
+        {
+            glVertex3f(x, y, z);
+            glVertex3f(x, y, z + k);
+            glVertex3f(x + k, y, z + k);
+            glVertex3f(x + k, y, z);
+        }
+    }
+
+    glEnd();
+}
 
 
 void DrawTopTriangleSet(){
@@ -177,7 +294,7 @@ void display(void)
     glNormal3f(0, 0, 1);
     for (int i = 0; i <= 360; i++)
     {
-        glVertex3f(cos(i*PI / 180) * 1, sin(i*PI / 180) * 1, -1.5);
+        glVertex3f(cos(i*PI / 180) * 1, sin(i*PI / 180) * 1, -0.8);
     }
 
     glEnd();
