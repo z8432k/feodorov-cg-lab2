@@ -23,4 +23,10 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 endif()
 
-add_subdirectory(src)
+find_package(OpenGL REQUIRED COMPONENTS OpenGL)
+find_package(GLUT REQUIRED)
+
+
+add_executable(lab2 lab2.cc)
+target_link_libraries(lab2 ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
+
